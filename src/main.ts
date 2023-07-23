@@ -2,7 +2,6 @@ import {ValidationPipe} from '@nestjs/common'
 import {NestFactory} from '@nestjs/core'
 import {NestExpressApplication} from '@nestjs/platform-express'
 import {join} from 'path'
-import { MicroserviceOptions } from '@nestjs/microservices';
 
 import {AppModule} from './app.module'
 import config from './dotenv/config'
