@@ -1,4 +1,4 @@
-import {Prop, Schema, SchemaFactory} from "@nestjs/mongoose";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 
 import * as IGame from '../../interfaces/server/Interfaces';
@@ -7,7 +7,7 @@ import * as IGame from '../../interfaces/server/Interfaces';
 export class Server {
   @Prop() name: string;
 
-  @Prop({type : mongoose.Schema.Types.Mixed}) map: IGame.map;
+  @Prop({ type: mongoose.Schema.Types.Mixed }) map: IGame.map;
 
   @Prop() players: Array<IGame.player>;
 

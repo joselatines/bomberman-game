@@ -25,6 +25,7 @@ export class UsersService {
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
+    updateUserDto;
     return `This action updates a #${id} user`;
   }
 

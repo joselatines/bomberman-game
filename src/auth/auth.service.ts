@@ -1,6 +1,6 @@
 import { Injectable, HttpException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { compare } from 'bcrypt';
+import { compare, hash } from 'bcrypt';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { RegisterAuthDto } from './dto/register-auth.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -37,9 +37,15 @@ export class AuthService {
   }
 
   async register(registerCredentials: RegisterAuthDto) {
+    const { password } = registerCredentials;
     try {
-      const userCreated = await this.usersModel.create(registerCredentials);
-      console.log({ userCreated });
+      if (!password) throw new HttpException('PASSWORD NEEDED', 403);
+      const hashedPassword = await hash(registerCredentials.password, 10);
+
+      const userCreated = await this.usersModel.create({
+        ...registerCredentials,
+        password: hashedPassword,
+      });
 
       return userCreated;
     } catch (error) {

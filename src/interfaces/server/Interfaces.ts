@@ -1,22 +1,22 @@
 interface player {
   name: string;
   position: {
-    x: number,
-    y: number,
+    x: number;
+    y: number;
   };
   bomba: {
-    power: string,
+    power: string;
     position: {
-      x: string,
-      y: string,
-    },
-    time: Date,
+      x: string;
+      y: string;
+    };
+    time: Date;
   };
 }
 
 interface map {
-  block_destroy: Array<{x : number, y: number}>;
-  block_solid: Array<{x : number, y: number}>;
+  block_destroy: Array<{ x: number; y: number }>;
+  block_solid: Array<{ x: number; y: number }>;
 }
 
 interface chat {
@@ -24,4 +24,4 @@ interface chat {
   name: string;
 }
 
-export {player, map, chat};
+export { player, map, chat };

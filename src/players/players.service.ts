@@ -1,4 +1,4 @@
-import {Injectable} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 
 interface IDate {
   name: string;
@@ -6,9 +6,9 @@ interface IDate {
 
 @Injectable()
 export class PlayersService {
-  playGame():IDate {
+  playGame(): IDate {
     return {
-      name: 'John'
-    }
+      name: 'John',
+    };
   }
 }
