@@ -1,28 +1,27 @@
-import * as dotenv from 'dotenv'
-import {join} from "path";
+import * as dotenv from 'dotenv';
+import { join } from 'path';
 
-dotenv.config({path : join(__dirname, '..', '..', '.env')});
+dotenv.config({ path: join(__dirname, '..', '..', '.env') });
 
 interface ENV {
-  DB_USER: string|undefined;
-  DB_PASSWORD: string|undefined;
-  DB_COLLECTION: string|undefined;
-  PORT: number|undefined;
-}
-
-interface Config {
   DB_USER: string;
   DB_PASSWORD: string;
   DB_COLLECTION: string;
   PORT: number;
+  JWT_SECRET: string;
 }
 
+interface Config extends ENV {}
+
 const getConfig = (): ENV => {
+  const { DB_USER, DB_PASSWORD, DB_COLLECTION, PORT, JWT_SECRET } = process.env;
+  const parsedPort = PORT ? Number(PORT) : undefined;
   return {
-    DB_USER : process.env.DB_USER,
-    DB_PASSWORD : process.env.DB_PASSWORD,
-    DB_COLLECTION : process.env.DB_COLLECTION,
-    PORT : process.env.PORT ? Number(process.env.PORT) : undefined
+    DB_USER,
+    DB_PASSWORD,
+    DB_COLLECTION,
+    PORT: parsedPort,
+    JWT_SECRET,
   };
 };
 

@@ -20,7 +20,7 @@ export class AuthController {
   async registerUser(@Body() userCredentials: RegisterAuthDto) {
     const { password } = userCredentials;
 
-    if (!password) throw new HttpException('PASSWORD NEEDED', 401);
+    if (!password) throw new HttpException('PASSWORD NEEDED', 403);
 
     const hashedPassword = await hash(password, 10);
 
