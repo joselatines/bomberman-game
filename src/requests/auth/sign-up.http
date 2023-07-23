@@ -1,7 +1,8 @@
-POST http://localhost:3000/auth/sign-up HTTP/1.1
+POST http://localhost:3000/auth/register HTTP/1.1
 content-type: application/json
 
 {
-    "name": "sample",
-    "time": "Wed, 21 Oct 2015 18:27:50 GMT"
+    "username": "sample username",
+    "email": "fake@gmail.com",
+    "password": "1"
 }
