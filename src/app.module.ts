@@ -14,17 +14,16 @@ import { PlayersService } from './players/players.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 
+const MONGO_URI = `mongodb+srv://${config.DB_USER}:${config.DB_PASSWORD}@cluster.vaqcv.mongodb.net`;
+
 @Module({
   imports: [
-    MongooseModule.forRoot(
-      `mongodb+srv://${config.DB_USER}:${config.DB_PASSWORD}@cluster.vaqcv.mongodb.net`,
-      { dbName: config.DB_COLLECTION },
-    ),
+    MongooseModule.forRoot(MONGO_URI, { dbName: config.DB_COLLECTION }),
     MongooseModule.forFeature([{ name: 'Server', schema: ServerSchema }]),
     ConfigModule.forRoot({ isGlobal: true }),
     GatewaysModule,
     AuthModule,
-    UsersModule
+    UsersModule,
   ],
 
   controllers: [PlayersController, ServerController],
