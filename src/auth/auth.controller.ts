@@ -4,20 +4,16 @@ import { hash, compare } from 'bcrypt';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { RegisterAuthDto } from './dto/register-auth.dto';
 import { UsersService } from 'src/users/users.service';
+import { AuthService } from './auth.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: UsersService) {}
+  constructor(private readonly authService: AuthService) {}
 
   @Post('login')
   async loginUser(@Body() userCredentials: LoginAuthDto) {
-    const { password } = userCredentials;
-    const hashedPassword = await hash('123', 10);
-    const correctPassword = await compare(password, hashedPassword);
-
-    if (!correctPassword) throw new HttpException('INCORRECT PASSWORD', 401);
-
-    return password;
+   
+    return this.authService.login(userCredentials);
   }
 
   @Post('register')
@@ -28,7 +24,7 @@ export class AuthController {
 
     const hashedPassword = await hash(password, 10);
 
-    return this.authService.create({
+    return this.authService.register({
       ...userCredentials,
       password: hashedPassword,
     });
