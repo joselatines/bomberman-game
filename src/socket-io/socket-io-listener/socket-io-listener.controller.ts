@@ -5,6 +5,7 @@ import { Socket } from 'socket.io-client';
 @Controller()
 export class SocketIoListenerController {
   @MessagePattern('welcome')
+
   handleSendHello(@Payload() data: string, @Ctx() client: Socket) {
     console.log('got welcome from server', data);
     const responseMessage = 'Ohayo';

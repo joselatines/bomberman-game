@@ -7,14 +7,14 @@ export class SocketIoClientProxyService extends ClientProxy {
   @Inject(SocketIoClient)
   private client: SocketIoClient;
 
-  async connect(): Promise<any> {
+  async connect() {
     this.client.getSocket();
     console.log('connect client proxy');
   }
 
   async close() {
     this.client.getSocket().disconnect();
-    console.log('connect client proxy');
+    console.log('disconnect client proxy');
   }
 
   /**
@@ -24,7 +24,6 @@ export class SocketIoClientProxyService extends ClientProxy {
    */
   async dispatchEvent(packet: ReadPacket<any>): Promise<any> {
     this.client.getSocket().emit(packet.pattern, packet.data);
-    return;
   }
 
   /**

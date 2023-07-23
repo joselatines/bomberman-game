@@ -9,6 +9,7 @@ import config from './dotenv/config'
 
 import { SocketIoClientStrategy } from './socket-io/socket-io-client/socket-io-client.strategy';
 import { SocketIoClient } from './socket-io/socket-io-client/socket-io-client.provider';
+import * as io from 'socket.io';
 
 const bootstrap = async() => {
   const app = await NestFactory.create<NestExpressApplication>(
@@ -26,11 +27,13 @@ const bootstrap = async() => {
   await app.startAllMicroservices();
 
   app.useGlobalPipes(new ValidationPipe());
-
-  app.useStaticAssets(join(__dirname, '..', 'public'), {prefix : '/assest/'});
+  app.enableCors();
+  
+  app.useStaticAssets(join(__dirname, '..', 'public'), {prefix : '/'});
   app.setViewEngine('hbs');
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
 
   await app.listen(config.PORT);
+  
 }
 bootstrap();

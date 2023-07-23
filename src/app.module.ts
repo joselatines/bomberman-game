@@ -13,6 +13,8 @@ import {PlayersService} from './players/players.service';
 import { SocketIoClient } from './socket-io/socket-io-client/socket-io-client.provider';
 import { SocketIoClientProxyService } from './socket-io/socket-io-client-proxy/socket-io-client-proxy.service';
 import { SocketIoListenerController } from './socket-io/socket-io-listener/socket-io-listener.controller';
+import { SocketServerController } from './socket-io/socket-server/socket-server.controller';
+import { SocketServerService } from './socket-io/socket-server/socket-server.service';
 
 @Module({
   imports : [
@@ -23,8 +25,8 @@ import { SocketIoListenerController } from './socket-io/socket-io-listener/socke
     ConfigModule.forRoot({isGlobal: true})
   ],
 
-  controllers : [ AppController, PlayersController, ServerController, SocketIoListenerController ],
-  providers : [ AppService, PlayersService, ServerService, SocketIoClient, SocketIoClientProxyService ],
+  controllers : [ PlayersController, ServerController, SocketIoListenerController, SocketServerController ],
+  providers : [ PlayersService, ServerService, SocketIoClient, SocketIoClientProxyService, SocketServerService ],
 })
 
 export class AppModule {

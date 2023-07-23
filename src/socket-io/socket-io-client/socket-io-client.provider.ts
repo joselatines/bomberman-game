@@ -10,7 +10,7 @@ export class SocketIoClient {
   private socket: Socket;
 
   private connect() {
-    this.socket = io("http://localhost:3001");
+    this.socket = io("http://localhost:3000");
     return this.socket;
   }
 
