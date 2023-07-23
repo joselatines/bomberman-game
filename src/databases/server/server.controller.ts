@@ -1,15 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  HttpStatus,
-  Param,
-  Post,
-  Put,
-  Res,
-} from '@nestjs/common';
-
+import { Body, Controller, HttpStatus, Post, Res } from '@nestjs/common';
 import templateCreateServer from '../../json/template/server.json';
 import { CreateServerDto } from './dto/create-server.dto';
 import { ServerService } from '../server/server.service';

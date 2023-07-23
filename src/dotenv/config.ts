@@ -11,7 +11,7 @@ interface ENV {
   JWT_SECRET: string;
 }
 
-interface Config extends ENV {}
+type Config = ENV;
 
 const getConfig = (): ENV => {
   const { DB_USER, DB_PASSWORD, DB_COLLECTION, PORT, JWT_SECRET } = process.env;

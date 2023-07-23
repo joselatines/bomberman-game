@@ -1,7 +1,9 @@
-import {Controller, Get} from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 
-import {PlayersService} from './players.service';
+import { PlayersService } from './players.service';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('players')
 @Controller('players')
 export class PlayersController {
   constructor(private playersService: PlayersService) {}

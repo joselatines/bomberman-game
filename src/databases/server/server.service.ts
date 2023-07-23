@@ -1,10 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-
 import { CreateServerDto } from '../interfaces/create-server.dto';
 import { IServer } from '../interfaces/server.interfaces';
-import { UpdateServerDto } from '../interfaces/update-server.dto';
 
 @Injectable()
 export class ServerService {

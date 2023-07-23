@@ -1,9 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ServerSchema } from './databases/schema/server.schema';
 import { ServerController } from './databases/server/server.controller';
 import { ServerService } from './databases/server/server.service';
