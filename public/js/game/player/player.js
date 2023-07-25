@@ -1,3 +1,5 @@
+import * as socket from '../../socket.io/socket.js'
+
 class Player {
   #engine;
   #render;
@@ -8,6 +10,7 @@ class Player {
   #player;
   #step;
   #move;
+  #position;
 
   constructor(engine, render) {
     this.#engine = engine;
@@ -17,30 +20,38 @@ class Player {
     this.#Bodies = Matter.Bodies;
     this.#Events = Matter.Events;
     this.#step = 10;
+    this.#position = {x : -1, y : -1};
 
     this.#world_padding = 300;
-    this.#player = this.#Bodies.circle(50, 50, 32.5, { friction: 0, airFriction: 1, inertia: Infinity });
+    this.#player = this.#Bodies.circle(
+        50, 50, 32.5, {friction : 0, airFriction : 1, inertia : Infinity});
   }
 
-  getPlayer() {
-    return this.#player;
-  }
+  getPlayer() { return this.#player; }
 
   start_keyboard() {
 
-    document.onkeyup = (event) => {
-      this.#Body.setVelocity(this.#player, {x:0, y:0});
-    }
+    document.onkeyup =
+        (event) => { this.#Body.setVelocity(this.#player, {x : 0, y : 0}); }
 
-    document.onkeydown = (event) => {
-      if (event.key == 'a') this.#Body.setVelocity(this.#player, {x:-this.#step, y:0});
-      if (event.key == 'd') this.#Body.setVelocity(this.#player, {x:this.#step, y:0});
-      if (event.key == 'w') this.#Body.setVelocity(this.#player, {x:0, y:-this.#step});
-      if (event.key == 's') this.#Body.setVelocity(this.#player, {x:0, y:this.#step});
-    };
+                   document.onkeydown = (event) => {
+          if (event.key == 'a')
+            this.#Body.setVelocity(this.#player, {x : -this.#step, y : 0});
+          if (event.key == 'd')
+            this.#Body.setVelocity(this.#player, {x : this.#step, y : 0});
+          if (event.key == 'w')
+            this.#Body.setVelocity(this.#player, {x : 0, y : -this.#step});
+          if (event.key == 's')
+            this.#Body.setVelocity(this.#player, {x : 0, y : this.#step});
 
+          if (!(this.#position.x === this.#player.position.x.toFixed(2) &&
+                this.#position.y === this.#player.position.y.toFixed(2))) {
+            this.#position.x = this.#player.position.x.toFixed(2);
+            this.#position.y = this.#player.position.y.toFixed(2);
+            socket.move(this.#position);
+          }
+        };
   }
-
 };
 
 export default Player;

@@ -1,6 +1,7 @@
 import Player from './player/player.js'
 import Map from './map/map.js'
 import * as style from './styles/block.styles.js'
+import * as socket from '../socket.io/socket.js'
 
 // module aliases
 const { Engine, Render, Runner, Bodies, Body, Composite, Vector, World } = Matter;

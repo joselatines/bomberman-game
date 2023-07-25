@@ -7,11 +7,11 @@ import * as IGame from '../../interfaces/server/Interfaces';
 export class Server {
   @Prop() name: string;
 
-  @Prop({ type: mongoose.Schema.Types.Mixed }) map: IGame.map;
+  @Prop({ type: mongoose.Schema.Types.Mixed }) map: IGame.IMap;
 
-  @Prop() players: Array<IGame.player>;
+  @Prop() players: Array<IGame.IPlayer>;
 
-  @Prop() chat: Array<IGame.chat>;
+  @Prop() chat: Array<IGame.IChat>;
 }
 
 export const ServerSchema = SchemaFactory.createForClass(Server);

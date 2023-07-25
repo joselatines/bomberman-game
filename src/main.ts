@@ -6,6 +6,7 @@ import { join } from 'path';
 
 import { AppModule } from './app.module';
 import config from './dotenv/config';
+import * as exphbs from 'express-handlebars';
 
 const bootstrap = async () => {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -25,8 +26,7 @@ const bootstrap = async () => {
 
   app.useGlobalPipes(new ValidationPipe());
   app.useStaticAssets(join(__dirname, '..', 'public'), { prefix: '/' });
-  app.setViewEngine('hbs');
-  app.setBaseViewsDir(join(__dirname, '..', 'views'));
+  app.setViewEngine('ejs');
 
   await app.listen(config.PORT);
 
