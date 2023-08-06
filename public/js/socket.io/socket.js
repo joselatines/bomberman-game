@@ -7,7 +7,7 @@ let socketID = '';
 const data = JSON.parse(`{${location.search.replace('?', '"').replaceAll('=', '":"').replaceAll('&', '","')}"}`);
 
 const move = ({x, y}) => {
-  socket.emit('onMove', {x, y, id : socketID, name: data.name, ServerName : data.ServerName});
+  socket.emit('onMove', {x, y, id : socketID, positionPlayer, name: data.name, ServerName : data.ServerName});
 };
 
 socket.on('onConnect', ({id}) => {
@@ -22,12 +22,9 @@ socket.on('onJoinPlayer', (body) => {
   // online.player1.position.y = 711;
 });
 
-socket.on('onPlayer', (body) => {
-  body.forEach((e) => {
-    const getInfo = e[0].split('.');
-
-    if(getInfo.at(-1) === 'position') helpers.position(e, parseInt(getInfo[1]));
-  })
+socket.on('onPlayerMove', (body) => {
+  helpers.position(body);
+});
 
 
   // online[`player${id}`]
@@ -50,7 +47,6 @@ socket.on('onPlayer', (body) => {
     }
 ]
 */
-});
 
 
 export {move};

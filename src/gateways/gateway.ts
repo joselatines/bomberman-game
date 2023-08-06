@@ -48,6 +48,9 @@ export class MyGateway implements OnModuleInit {
 
   @SubscribeMessage('onMove')
   async onMovePlayer(@MessageBody() body) {
-    await this.DBService.uploadData(body);
+    globalThis.ServerNameToPlayers[body.ServerName].forEach((socket:Server, i:number) => {
+      socket.emit('onPlayerMove', {positionPlayer: body.positionPlayer, x: body.x, y: body.y});
+    });
+    // await this.DBService.uploadData(body);
   }
 }

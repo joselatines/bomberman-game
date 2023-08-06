@@ -48,9 +48,7 @@ scene.push(
 );
 
 
-const __player__ = new Player(engine, render, getPosition(positionPlayer) );
-const player = __player__.getPlayer();
-__player__.start_keyboard();
+const player = new Player(engine, render, getPosition(positionPlayer), true).getPlayer();
 
 [0,1,2,3].forEach(e => {
 	if(e!==positionPlayer) {
