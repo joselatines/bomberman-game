@@ -5,6 +5,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!--Librarys-->
 	<% if(msg==='Join') {%>
+		<script type="text/javascript">
+			const online = {};
+			const positionPlayer = <%=position%>;
+		</script>
 		<script defer type="text/javascript" src="/js/lib/matter.min.js"></script>
 		<script defer type="module" src="/js/game/main.js"></script>
 	<%}%>

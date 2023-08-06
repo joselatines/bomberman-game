@@ -12,19 +12,19 @@ class Player {
   #move;
   #position;
 
-  constructor(engine, render) {
+  constructor(engine, render, {x=50, y=50}) {
     this.#engine = engine;
     this.#render = render;
 
     this.#Body = Matter.Body;
     this.#Bodies = Matter.Bodies;
     this.#Events = Matter.Events;
-    this.#step = 10;
+    this.#step = 5;
     this.#position = {x : -1, y : -1};
 
     this.#world_padding = 300;
     this.#player = this.#Bodies.circle(
-        50, 50, 32.5, {friction : 0, airFriction : 1, inertia : Infinity});
+        x, y, 25, {friction : 1, airFriction : 1, inertia : Infinity});
   }
 
   getPlayer() { return this.#player; }

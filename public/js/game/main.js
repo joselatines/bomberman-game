@@ -3,6 +3,13 @@ import Map from './map/map.js'
 import * as style from './styles/block.styles.js'
 import * as socket from '../socket.io/socket.js'
 
+const getPosition = (position) => {
+	const x = position >= 1 && position <= 2?1106:58;
+	const y = position >= 2 && position <= 3?711:58;
+	
+	return {x, y};
+}
+
 // module aliases
 const { Engine, Render, Runner, Bodies, Body, Composite, Vector, World } = Matter;
 
@@ -41,14 +48,20 @@ scene.push(
 );
 
 
-const __player__ = new Player(engine, render);
+const __player__ = new Player(engine, render, getPosition(positionPlayer) );
+const player = __player__.getPlayer();
 __player__.start_keyboard();
 
-const player = __player__.getPlayer();
+[0,1,2,3].forEach(e => {
+	if(e!==positionPlayer) {
+		online[`player${e}`] = new Player(engine, render, getPosition(e)).getPlayer();
+		return;
+	}
 
-scene.push(player);
+	online[`player${positionPlayer}`] = player;
+});
 
-
+scene.push(...Object.values(online));
 
 // add all of the bodies to the world
 World.add(engine.world, scene);
@@ -58,3 +71,5 @@ const runner = Runner.create();
 
 // run the engine
 Runner.run(runner, engine);
+
+// export {online}

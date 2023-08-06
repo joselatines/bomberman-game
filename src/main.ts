@@ -6,7 +6,6 @@ import { join } from 'path';
 
 import { AppModule } from './app.module';
 import config from './dotenv/config';
-import * as exphbs from 'express-handlebars';
 
 const bootstrap = async () => {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);

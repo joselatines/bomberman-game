@@ -17,7 +17,7 @@ interface IServerNameToPlayers {
   [index: string]: IContent;
 }
 
-const ServerNameToPlayers: IServerNameToPlayers = {};
+globalThis.ServerNameToPlayers = {};
 
 @WebSocketGateway()
 export class MyGateway implements OnModuleInit {
@@ -36,17 +36,18 @@ export class MyGateway implements OnModuleInit {
 
   @SubscribeMessage('onConnectServer')
   onConnectServer(@MessageBody() body) {
-    if (ServerNameToPlayers[body.ServerName] === undefined) {
-      ServerNameToPlayers[body.ServerName] = {};
-      ServerNameToPlayers[body.ServerName][body.id] = this.server;
-    }
+    (globalThis.ServerNameToPlayers[body.ServerName]??[]).forEach(async(socket:Server) => {
+      socket.emit('onJoinPlayer', body);
+    })
+
+    if (globalThis.ServerNameToPlayers[body.ServerName] === undefined)
+      globalThis.ServerNameToPlayers[body.ServerName] = [];
+
+    globalThis.ServerNameToPlayers[body.ServerName].push(this.server);
   }
 
   @SubscribeMessage('onMove')
-  onMovePlayer(@MessageBody() body) {
-    // this.DBService.test();
-    // Object.values(ServerNameToPlayers[body.ServerName]).forEach((socket:Server) => {
-    // socket.emit('onMovePlayer', { x: body.x, y: body.y, username: body.name});
-    // })
+  async onMovePlayer(@MessageBody() body) {
+    await this.DBService.uploadData(body);
   }
 }
