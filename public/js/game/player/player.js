@@ -11,9 +11,6 @@ class Player {
   #step;
   #move;
   #position;
-  #sendPayload;
-  #timeForAFK;
-  #clearStopSendPayload;
 
   constructor(engine, render, {x=50, y=50}, mainPlayer=false) {
     this.#engine = engine;
@@ -23,12 +20,8 @@ class Player {
     this.#Bodies = Matter.Bodies;
     this.#Events = Matter.Events;
     this.#step = 5;
-    this.#position = {x : -1, y : -1};
-    this.#timeForAFK = 1000;
-    this.#sendPayload = setInterval(() => {
-      socket.move(this.#position);
-    }, 100);
-
+    
+    this.#position = {x, y};
 
     this.#world_padding = 300;
     this.#player = this.#Bodies.circle(
@@ -40,37 +33,23 @@ class Player {
 
   getPlayer() { return this.#player; }
 
-  #startSendPayload() {
-    if(!this.#sendPayload?._destroyed) {
-      clearTimeout(this.#clearStopSendPayload);
-      return;
-    }
-    
-    this.#sendPayload = setInterval(() => {
-      socket.move(this.#position);
-    }, 100);
-  }
-
-  #stopSendPayload() {
-    this.#clearStopSendPayload = setTimeout(() => {
-      clearInterval(this.#sendPayload);
-      this.#sendPayload = false;
-    }, this.#timeForAFK);
+  #socketMove() {
+    if(this.#player.speed > 0) {
+      socket.move(this.#player.position);
+    }    
   }
 
   start_keyboard() {
 
+    setInterval(() => {this.#socketMove();}, 200);
+
     document.onkeyup = (event) => {
       this.#Body.setVelocity(this.#player, {x : 0, y : 0});
-      this.#stopSendPayload();
+      socket.move(this.#player.position);
     }
-
 
     document.onkeydown = (event) => {
       if(!['a', 'd', 'w', 's'].includes(event.key)) return;
-
-      this.#startSendPayload();
-
       if (event.key == 'a')
         this.#Body.setVelocity(this.#player, {x : -this.#step, y : 0});
       else if (event.key == 'd')
@@ -79,12 +58,6 @@ class Player {
         this.#Body.setVelocity(this.#player, {x : 0, y : -this.#step});
       else if (event.key == 's')
         this.#Body.setVelocity(this.#player, {x : 0, y : this.#step});
-
-      if (!(this.#position.x === this.#player.position.x.toFixed(2) &&
-            this.#position.y === this.#player.position.y.toFixed(2))) {
-        this.#position.x = this.#player.position.x.toFixed(2);
-        this.#position.y = this.#player.position.y.toFixed(2);  
-      }
     };
   }
 };

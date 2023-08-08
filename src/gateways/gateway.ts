@@ -30,27 +30,27 @@ export class MyGateway implements OnModuleInit {
     this.server.on('connect', (socket) => {
       console.info(`Connected ${socket.id}`);
 
-      this.server.emit('onConnect', { id: socket.id });
+      this.server.to(socket.id).emit('onConnect', { id: socket.id });
     });
   }
 
   @SubscribeMessage('onConnectServer')
   onConnectServer(@MessageBody() body) {
-    (globalThis.ServerNameToPlayers[body.ServerName]??[]).forEach(async(socket:Server) => {
-      socket.emit('onJoinPlayer', body);
+    (globalThis.ServerNameToPlayers[body.ServerName]??[]).forEach(async(id:string) => {
+      this.server.to(id).emit('onJoinPlayer', body);
     })
 
     if (globalThis.ServerNameToPlayers[body.ServerName] === undefined)
       globalThis.ServerNameToPlayers[body.ServerName] = [];
 
-    globalThis.ServerNameToPlayers[body.ServerName].push(this.server);
+    globalThis.ServerNameToPlayers[body.ServerName].push(body.id);
   }
 
   @SubscribeMessage('onMove')
-  async onMovePlayer(@MessageBody() body) {
-    globalThis.ServerNameToPlayers[body.ServerName].forEach((socket:Server, i:number) => {
-      socket.emit('onPlayerMove', {positionPlayer: body.positionPlayer, x: body.x, y: body.y});
+  onMovePlayer(@MessageBody() body) {
+    // this.DBService.uploadData(body);
+    (globalThis.ServerNameToPlayers[body.ServerName]??[]).forEach((id:string) => {
+      this.server.to(id).emit('onPlayerMove', {positionPlayer: body.positionPlayer, x: body.x, y: body.y});
     });
-    // await this.DBService.uploadData(body);
   }
 }

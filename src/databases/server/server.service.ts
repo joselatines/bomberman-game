@@ -17,9 +17,7 @@ export class ServerService {
   constructor(
     @InjectModel('Server')
     private serverModel: Model<IServer>,
-  ) {
-    this.watch();
-  }
+  ) {}
 
   async createServer(createServerDto: CreateServerDto): Promise<IServer> {
     const newServer = await new this.serverModel(createServerDto);
@@ -32,7 +30,7 @@ export class ServerService {
         name: joinServerDto.ServerName,
       });
       const players: [IPlayer] = docs.players;
-      if (players.length >= 20) return { msg: 'Server full', position: undefined };
+      if (players.length >= 4) return { msg: 'Server full', position: undefined };
       if (players.some((e) => e.name === joinServerDto.name))
         return {
           msg: `A user with the name of ${joinServerDto.name} already exists`,
@@ -63,22 +61,4 @@ export class ServerService {
       { new: true }
     );
   }
-
-  watch() {
-    this.serverModel.watch([], { fullDocument: 'updateLookup' }).on('change', (data) => {
-      if(globalThis.ServerNameToPlayers[data.fullDocument.name] === undefined) return;
-
-      const update = data.updateDescription.updatedFields;
-
-      const updatedFields = Object.keys(update).map((e, i) => {
-        return [e, Object.values(update)[i]];
-      });
-
-      globalThis.ServerNameToPlayers[data.fullDocument.name].forEach((socket:Server, i:number) => {
-        socket.emit('onPlayer', updatedFields);
-      });
-
-    })
-  }
-
 }

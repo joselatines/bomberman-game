@@ -17,36 +17,12 @@ socket.on('onConnect', ({id}) => {
 });
 
 socket.on('onJoinPlayer', (body) => {
-  console.log('join');
-  // online.player1.position.x = 1106;
-  // online.player1.position.y = 711;
 });
 
 socket.on('onPlayerMove', (body) => {
   helpers.position(body);
 });
 
-
-  // online[`player${id}`]
-/*
-[
-    {
-        "name": "Sebas",
-        "position": {
-            "x": "139.92",
-            "y": "58.00"
-        },
-        "bomba": {
-            "power": "",
-            "position": {
-                "x": "0",
-                "y": "0"
-            },
-            "time": "2023-08-06T03:47:45.242Z"
-        }
-    }
-]
-*/
 
 
 export {move};
