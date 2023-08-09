@@ -9,14 +9,6 @@ import {
 import { Server } from 'socket.io';
 import { ServerService } from '../databases/server/server.service';
 
-interface IContent {
-  [index: string]: Server;
-}
-
-interface IServerNameToPlayers {
-  [index: string]: IContent;
-}
-
 globalThis.ServerNameToPlayers = {};
 
 @WebSocketGateway()
@@ -36,9 +28,11 @@ export class MyGateway implements OnModuleInit {
 
   @SubscribeMessage('onConnectServer')
   onConnectServer(@MessageBody() body) {
-    (globalThis.ServerNameToPlayers[body.ServerName]??[]).forEach(async(id:string) => {
-      this.server.to(id).emit('onJoinPlayer', body);
-    })
+    (globalThis.ServerNameToPlayers[body.ServerName] ?? []).forEach(
+      async (id: string) => {
+        this.server.to(id).emit('onJoinPlayer', body);
+      },
+    );
 
     if (globalThis.ServerNameToPlayers[body.ServerName] === undefined)
       globalThis.ServerNameToPlayers[body.ServerName] = [];
@@ -48,9 +42,15 @@ export class MyGateway implements OnModuleInit {
 
   @SubscribeMessage('onMove')
   onMovePlayer(@MessageBody() body) {
-    // this.DBService.uploadData(body);
-    (globalThis.ServerNameToPlayers[body.ServerName]??[]).forEach((id:string) => {
-      this.server.to(id).emit('onPlayerMove', {positionPlayer: body.positionPlayer, x: body.x, y: body.y});
-    });
+    (globalThis.ServerNameToPlayers[body.ServerName] ?? []).forEach(
+      (id: string) => {
+        this.server.to(id).emit('onPlayerMove', {
+          positionPlayer: body.positionPlayer,
+          x: body.x,
+          y: body.y,
+        });
+      },
+    );
+    this.DBService.uploadData(body);
   }
 }

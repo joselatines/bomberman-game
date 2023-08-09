@@ -4,6 +4,6 @@ import { ServerModule } from '../databases/server/server.module';
 
 @Module({
   imports: [ServerModule],
-  providers: [MyGateway]
+  providers: [MyGateway],
 })
 export class GatewaysModule {}
