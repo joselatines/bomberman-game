@@ -25,8 +25,7 @@ const bootstrap = async () => {
 
   app.useGlobalPipes(new ValidationPipe());
   app.useStaticAssets(join(__dirname, '..', 'public'), { prefix: '/' });
-  app.setViewEngine('hbs');
-  app.setBaseViewsDir(join(__dirname, '..', 'views'));
+  app.setViewEngine('ejs');
 
   await app.listen(config.PORT);
 
