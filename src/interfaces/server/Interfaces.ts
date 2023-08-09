@@ -1,4 +1,4 @@
-interface player {
+interface IPlayer {
   name: string;
   position: {
     x: number;
@@ -14,14 +14,14 @@ interface player {
   };
 }
 
-interface map {
+interface IMap {
   block_destroy: Array<{ x: number; y: number }>;
   block_solid: Array<{ x: number; y: number }>;
 }
 
-interface chat {
+interface IChat {
   msg: string;
   name: string;
 }
 
-export { player, map, chat };
+export { IPlayer, IMap, IChat };

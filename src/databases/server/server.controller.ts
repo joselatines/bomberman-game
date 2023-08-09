@@ -1,7 +1,18 @@
-import { Body, Controller, HttpStatus, Post, Res } from '@nestjs/common';
+import {
+  Body,
+  Query,
+  Controller,
+  HttpStatus,
+  Post,
+  Get,
+  Res,
+  Render,
+} from '@nestjs/common';
+
 import templateCreateServer from '../../json/template/server.json';
-import { CreateServerDto } from './dto/create-server.dto';
 import { ServerService } from '../server/server.service';
+import { JoinServerDto } from './dto/join-server.dto';
+import { CreateServerDto } from './dto/create-server.dto';
 
 @Controller('server')
 export class ServerController {
@@ -9,7 +20,7 @@ export class ServerController {
   @Post('create')
   async createServer(@Res() response, @Body() body: CreateServerDto) {
     try {
-      const createServer = { ...templateCreateServer };
+      const createServer = structuredClone(templateCreateServer);
       createServer['name'] = body['name'];
       const newServer = await this.ServerService.createServer(createServer);
 
@@ -26,5 +37,11 @@ export class ServerController {
         error: 'Bad Request',
       });
     }
+  }
+
+  @Get('join')
+  @Render('game')
+  async joinPlayer(@Query() query: JoinServerDto): Promise<any> {
+    return this.ServerService.joinPlayer(query);
   }
 }

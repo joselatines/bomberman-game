@@ -23,9 +23,9 @@ class Map {
             continue;
           if ((i == 18 || i == 17) && (j == 10 || j == 9))
             continue;
-          map.push(Bodies.rectangle(this.#size * i - 67, this.#size * j + 60,
-                                    this.#size, this.#size,
-                                    {isStatic : true, ...style.block_destroy}))
+          // map.push(Bodies.rectangle(this.#size * i - 67, this.#size * j + 60,
+                                    // this.#size, this.#size,
+                                    // {isStatic : true, ...style.block_destroy}))
           continue;
         }
         map.push(Bodies.rectangle(this.#size * i - 67, this.#size * j + 60,
